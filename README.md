@@ -63,7 +63,11 @@ You can delete your container with
 docker rm ros2custom
 ```
 
-**This will delete all the changes that you did to the files within the container!**
+**This will delete all the changes that you did to the files within the container!**. If your container is still running, docker complains. Then you can either stop the container or force-rm it:
+
+```bash
+$ docker rm -f ros2custom
+```
 
 ### Docker Container Contents
 The container contains the full ROS2 master build workspace, described by [our BI ros2 meta repo](https://github.com/Barkhausen-Institut/ros2/blob/master/ros2.repos). `colcon` was executed as
