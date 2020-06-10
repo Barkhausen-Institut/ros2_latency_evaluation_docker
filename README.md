@@ -7,7 +7,7 @@ Run `./build.sh` (needs your user to be in the group `docker`) [see official doc
 
 The script builds a container named `barkhauseninstitut/ros2custom:foxy`.
 
-For testing, start the container with (**be careful with the `--rm` flag. It means your container is deleted upon closing. So, changes are not persistent)
+For testing, start the container with (**be careful with the `--rm` flag. It means your container is deleted upon closing. So, changes are not persistent**)
 
 ```bash
 $ docker run -it --rm barkhauseninstitut/ros2custom:foxy /bin/bash
