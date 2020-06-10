@@ -63,3 +63,6 @@ docker rm ros2custom
 ```
 
 **This will delete all the changes that you did to the files within the container!**
+
+### Docker Container Contents
+The container contains the full ROS2 master build workspace, described by [our BI ros2 meta repo](https://github.com/Barkhausen-Institut/ros2/blob/master/ros2.repos). A symlink to the ROS2 install dir is located in `/opt/ros/foxy/` such that a `. /opt/ros/foxy/setup.bash` sources the workspace.
