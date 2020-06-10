@@ -17,6 +17,7 @@ Within the container, you can walk around. The ROS2 build workspace is in /ros2_
 
 ```
 $ . /ros2_custom/install/setup.bash
+$ . /opt/ros/foxy/setup.bash        # An alternative, symlinks to the above location
 $ ros2 run demo_nodes_cpp talker
 ```
 
@@ -65,4 +66,12 @@ docker rm ros2custom
 **This will delete all the changes that you did to the files within the container!**
 
 ### Docker Container Contents
-The container contains the full ROS2 master build workspace, described by [our BI ros2 meta repo](https://github.com/Barkhausen-Institut/ros2/blob/master/ros2.repos). A symlink to the ROS2 install dir is located in `/opt/ros/foxy/` such that a `. /opt/ros/foxy/setup.bash` sources the workspace.
+The container contains the full ROS2 master build workspace, described by [our BI ros2 meta repo](https://github.com/Barkhausen-Institut/ros2/blob/master/ros2.repos). `colcon` was executed as
+
+```bash
+$ colcon build --merge-install --packages-up-to demo_nodes_cpp
+```
+
+So, e.g. no RViz or RQt tools are compiled, but virtually all console tools. 
+
+A symlink to the ROS2 install dir is located in `/opt/ros/foxy/` such that a `. /opt/ros/foxy/setup.bash` sources the workspace.
