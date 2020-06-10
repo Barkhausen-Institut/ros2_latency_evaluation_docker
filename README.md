@@ -79,3 +79,5 @@ $ colcon build --merge-install --packages-up-to demo_nodes_cpp
 So, e.g. no RViz or RQt tools are compiled, but virtually all console tools. 
 
 A symlink to the ROS2 install dir is located in `/opt/ros/foxy/` such that a `. /opt/ros/foxy/setup.bash` sources the workspace.
+
+Obviously, the container has `emacs` installed. 
