@@ -3,7 +3,7 @@
 Contains Dockerfile to create an image of our custom-build ROS2 including profiling.
 
 ## Building the image
-Run `./build.sh` (needs your user to be in the group `docker`) [see official docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+Run `./build.sh` (needs your user to be in the group `docker`) [see official docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user). Maybe you need to run it with `sudo`.
 
 The script builds a container named `barkhauseninstitut/ros2custom:foxy`.
 
