@@ -25,7 +25,7 @@ $ ros2 run demo_nodes_cpp talker
 Intended usage is to start the container, and mount your local src directory into the container. Files are to be edited with your normal editing environment. Then, building is performed within the container. To mount your work dir into the container, do the following from your root source directory.
 
 ```bash
-docker run -it --rm --name ros2custom -v path/to/ros2_workspace:/workspace barkhauseninstitut/ros2custom:foxy
+docker run -it --name ros2custom -v path/to/ros2_workspace:/workspace barkhauseninstitut/ros2custom:foxy
 ```
 
 This will prompt you to the containers bash. If you close it (`Ctrl-D` or `exit`) the container exits. See below how to restart. If you want to deattach and leave everything running in the container, type `Ctrl-p Ctrl-q`.
