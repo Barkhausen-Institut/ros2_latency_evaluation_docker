@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y build-essential cmake git wget libxaw7-dev libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox
+RUN apt-get update && apt-get install -y build-essential cmake git wget libxaw7-dev libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox libpoco-dev
 
 RUN apt-get install -y python3.7-dev
 RUN cd /usr/bin && rm python3 python3m && ln -s python3.7 python3 && ln -s python3.7m python3m
@@ -9,6 +9,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python3.7
 RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip numpy lxml netifaces cryptography
 
 #### ROS2 build
+# the following line invalidates the cache, such that it pulls fresh from the repo
+
+ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 ARG METASRC=https://raw.githubusercontent.com/Barkhausen-Institut/ros2/master/ros2.repos
 ARG WS=/ros2_custom
 
@@ -16,6 +19,8 @@ RUN mkdir -p $WS/src && cd $WS && wget -q $METASRC && vcs import src < ros2.repo
 
 RUN cd $WS && colcon build --merge-install --packages-up-to demo_nodes_cpp
 RUN cd $WS && colcon build --merge-install --packages-up-to ros2run
+RUN cd $WS && colcon build --merge-install --packages-up-to ros2topic
+RUN cd $WS && colcon build --merge-install --packages-up-to ros2node
 
 RUN mkdir -p /opt/ros/ && ln -s $WS/install /opt/ros/foxy
 
