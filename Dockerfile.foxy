@@ -9,9 +9,6 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python3.7
 RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip numpy lxml netifaces cryptography
 
 #### ROS2 build
-# the following line invalidates the cache, such that it pulls fresh from the repo
-
-ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 ARG METASRC=https://raw.githubusercontent.com/Barkhausen-Institut/ros2/master/ros2.repos
 ARG WS=/ros2_custom
 ARG CACHEBUST=1
