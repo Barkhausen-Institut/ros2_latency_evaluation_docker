@@ -11,6 +11,8 @@ RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip nu
 #### ROS2 build
 ARG METASRC=https://raw.githubusercontent.com/Barkhausen-Institut/ros2/master/ros2.repos
 ARG WS=/ros2_custom
+ARG CACHEBUST=1
+RUN echo "$CACHEBUST"
 
 RUN mkdir -p $WS/src && cd $WS && wget -q $METASRC && vcs import src < ros2.repos
 
