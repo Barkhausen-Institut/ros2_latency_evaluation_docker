@@ -3,7 +3,7 @@
 Contains Dockerfile to create an image of our custom-build ROS2 including profiling.
 
 ## Building the image
-Run `./build.sh` (needs your user to be in the group `docker`) [see official docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+Run `./build.sh` (needs your user to be in the group `docker`) [see official docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user). Maybe you need to run it with `sudo`.
 
 The script builds a container named `barkhauseninstitut/ros2custom:foxy`.
 
@@ -25,16 +25,10 @@ $ ros2 run demo_nodes_cpp talker
 Intended usage is to start the container, and mount your local src directory into the container. Files are to be edited with your normal editing environment. Then, building is performed within the container. To mount your work dir into the container, do the following from your root source directory.
 
 ```bash
-docker run -d -it --name ros2custom --mount type=bind,source="$(pwd)",target=/src barkhauseninstitut/ros2custom:foxy
+docker run -it --name ros2custom -v path/to/ros2_workspace:/workspace barkhauseninstitut/ros2custom:foxy
 ```
 
-Then, attach to this container by
-
-```bash
-docker attach ros2custom
-```
-
-This attaches to the root process of the container. If you close it (`Ctrl-D` or `exit`) the container exits. See below how to restart. If you want to deattach and leave everything running in the container, type `Ctrl-p Ctrl-q`.
+This will prompt you to the containers bash. If you close it (`Ctrl-D` or `exit`) the container exits. See below how to restart. If you want to deattach and leave everything running in the container, type `Ctrl-p Ctrl-q`.
 
 The container has `tmux` installed, so you can create multiple terminals from there. If you feel the need to run an extra terminal outside of tmux, do
 
@@ -63,7 +57,7 @@ You can delete your container with
 docker rm ros2custom
 ```
 
-**This will delete all the changes that you did to the files within the container!**. If your container is still running, docker complains. Then you can either stop the container or force-rm it:
+**This will delete all the changes that you did to the files within the container! (but not in your mounted folder)**. If your container is still running, docker complains. Then you can either stop the container or force-rm it:
 
 ```bash
 $ docker rm -f ros2custom
