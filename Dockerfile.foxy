@@ -1,12 +1,30 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.04 as base
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y build-essential cmake git wget libxaw7-dev libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox libpoco-dev nano
+#### Prepare system
+RUN apt-get update && \
+    apt-get install -y build-essential cmake git wget libxaw7-dev \
+    libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev \
+    libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox libpoco-dev nano
 
-RUN apt-get install -y python3.7-dev
-RUN cd /usr/bin && rm python3 python3m && ln -s python3.7 python3 && ln -s python3.7m python3m
+RUN apt-get install -y python3.7-dev python3.7-distutils && \
+    cd /usr/bin && \
+    rm python3 python3m && \
+    ln -s python3.7 python3 && \
+    ln -s python3.7m python3m
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3.7
 RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip numpy lxml netifaces cryptography
+
+FROM base as connext
+ENV NDDSHOME="/opt/rti_connext_dds-5.3.1/"
+ENV RTI_LICENSE_FILE="${NDDSHOME}/license.dat"
+ENV DYLD_LIBRARY_PATH="${NDDSHOME}/lib/x64Linux3gcc5.4.0:${DYLD_LIBRARY_PATH}"
+ENV PATH="${NDDSHOME}/bin:${PATH}"
+
+COPY rti_connext_dds-5.3.1 /opt/rti_connext_dds-5.3.1
+COPY rti_license.dat ${NDDSHOME}/license.dat
+
+FROM connext
 
 #### ROS2 build
 ARG METASRC=https://raw.githubusercontent.com/Barkhausen-Institut/ros2/master/ros2.repos
@@ -24,5 +42,6 @@ RUN cd $WS && colcon build --merge-install --packages-skip-by-dep rviz_assimp_ve
 
 RUN mkdir -p /opt/ros/ && ln -s $WS/install /opt/ros/foxy
 
+#### Install
 ENTRYPOINT /bin/bash
 
