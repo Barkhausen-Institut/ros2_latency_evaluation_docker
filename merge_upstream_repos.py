@@ -1,10 +1,11 @@
 import yaml
+import subprocess
 import urllib.request
 
 with urllib.request.urlopen('https://raw.githubusercontent.com/ros2/ros2/master/ros2.repos') as f:
     orig = yaml.safe_load(f.read().decode('utf-8'))
 
-FORKS="/tmp/ws/ros2.repos"
+FORKS="./ros2.repos"
 forks = yaml.safe_load(open(FORKS))
 
 def find_forks(forks):
@@ -17,8 +18,10 @@ def find_forks(forks):
 
 def merge_fork(directory, url, upstream_branch):
     print (f"Merging repo in {directory} with {url}/{upstream_branch}")
-    cmd = f"cd {directory} && git pull {url} {upstream_branch}"
+    cmd = f"cd src/{directory} && git remote add upstream {url} && git pull --rebase upstream {upstream_branch}"
     print (f"   cmd is '{cmd}'")
+    subprocess.check_call(cmd, shell=True)
+
 
 def main():
     real_forks = find_forks(forks)
@@ -30,6 +33,7 @@ def main():
             print (f"Ignoring unknown original repo {f[0]}")
         else:
             merge_fork(f[0], orig_url, "master")
+            print ("========")
 
 
 

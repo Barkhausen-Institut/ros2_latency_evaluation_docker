@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y build-essential cmake git wget libxaw7-dev libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox libpoco-dev
+RUN apt-get update && apt-get install -y build-essential cmake git wget libxaw7-dev libxrandr-dev liblog4cxx-dev libfreetype6-dev zip libasio-dev libtinyxml2-dev curl libffi-dev libreadline-dev libeigen3-dev libtinyxml-dev libcurl4-openssl-dev tmux emacs-nox libpoco-dev nano
 
 RUN apt-get install -y python3.7-dev
 RUN cd /usr/bin && rm python3 python3m && ln -s python3.7 python3 && ln -s python3.7m python3m
@@ -12,14 +12,15 @@ RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip nu
 ARG METASRC=https://raw.githubusercontent.com/Barkhausen-Institut/ros2/master/ros2.repos
 ARG WS=/ros2_custom
 ARG CACHEBUST=1
-RUN echo "$CACHEBUST"
+#RUN echo "$CACHEBUST"
 
 RUN mkdir -p $WS/src && cd $WS && wget -q $METASRC && vcs import src < ros2.repos
+COPY merge_upstream_repos.py $WS
 
-RUN cd $WS && colcon build --merge-install --packages-up-to demo_nodes_cpp
-RUN cd $WS && colcon build --merge-install --packages-up-to ros2run
-RUN cd $WS && colcon build --merge-install --packages-up-to ros2topic
-RUN cd $WS && colcon build --merge-install --packages-up-to ros2node
+RUN git config --global user.name dockerBI && git config --global user.email corola@barkhauseninstitut.org
+RUN cd $WS && python3 merge_upstream_repos.py
+
+RUN cd $WS && colcon build --merge-install --packages-skip-by-dep rviz_assimp_vendor rviz_ogre_vendor rviz_common rqt tf2_bullet image_tools --packages-ignore image_tools intra_process_demo qt_gui_cpp rviz_rendering tf2_bullet turtlesim rviz_ogre_vendor test_rclcpp rviz_rendering_tests rqt_gui_cpp rviz_common qt_gui_core rviz2 rviz_common rviz_default_plugins rviz_visual_testing_framework rviz_assimp_vendor
 
 RUN mkdir -p /opt/ros/ && ln -s $WS/install /opt/ros/foxy
 
