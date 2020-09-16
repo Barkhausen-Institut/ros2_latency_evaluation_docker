@@ -74,14 +74,12 @@ $ docker rm -f ros2custom
 ```
 
 ### Docker Container Contents
-The container contains the full ROS2 master build workspace, described by [our BI ros2 meta repo](https://github.com/Barkhausen-Institut/ros2/blob/master/ros2.repos). `colcon` was executed as
+The container contains the full ROS2 master build workspace. It clones the ROS2 foxy release given in the Dockerfile, downloads [ros2profiling from github](https://github.com/Barkhausen-Institut/ros2profiling), applies contained patches and compiles the ROS2 stack. 
 
-```bash
-$ colcon build --merge-install --packages-up-to demo_nodes_cpp
-```
+Only frequently used ROS2 tools are compiled. 
 
 So, e.g. no RViz or RQt tools are compiled, but virtually all console tools. 
 
 A symlink to the ROS2 install dir is located in `/opt/ros/foxy/` such that a `. /opt/ros/foxy/setup.bash` sources the workspace.
 
-Obviously, the container has `emacs` installed. 
+Obviously, the container has `emacs` and `tmux` installed. 
