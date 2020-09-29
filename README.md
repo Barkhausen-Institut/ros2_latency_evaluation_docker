@@ -6,10 +6,10 @@ Contains Dockerfile to create an image of our custom-build ROS2 including profil
 1. Copy the RTI Connext 5.3.1 installation folder into the root of this repo with the name `rti_connext_dds-5.3.1`. You can get the zip-file containing the contents of the folder by
     ```bash
     $ apt-get install smbclient
-    $ smbget -U youruser smb://SR-LAB-NAS-01/share/Software/rti_connext_dds-5.3.1.zip
+    $ smbget -U youruser smb://SR-LAB-NAS-01/public/Software/rti_connext_dds-5.3.1.zip
     $ unzip -q rti_connext_dds-5.3.1.zip
     ```
-2. Copy a valid license to the rot folder of this repo with the name `rti_license.dat`. You will get the license file as an attachment to the `RTI Connext DDS` Entry within the Corola Credentials File. 
+2. Copy a valid license to the root folder of this repo with the name `rti_license.dat`. You will get the license file as an attachment to the `RTI Connext DDS` Entry within the Corola Credentials File. 
 
 
 ## Building the image
