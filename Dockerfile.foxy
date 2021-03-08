@@ -16,12 +16,12 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python3.7
 RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip numpy lxml netifaces cryptography
 
 FROM base as connext
-ENV NDDSHOME="/opt/rti_connext_dds-5.3.1/"
+ENV NDDSHOME="/opt/rti_connext_dds/"
 ENV RTI_LICENSE_FILE="${NDDSHOME}/license.dat"
-ENV DYLD_LIBRARY_PATH="${NDDSHOME}/lib/x64Linux3gcc5.4.0:${DYLD_LIBRARY_PATH}"
+ENV DYLD_LIBRARY_PATH="${NDDSHOME}/lib/x64Linux4gcc7.3.0:${DYLD_LIBRARY_PATH}"
 ENV PATH="${NDDSHOME}/bin:${PATH}"
 
-COPY rti_connext_dds-5.3.1 /opt/rti_connext_dds-5.3.1
+COPY rti_connext_dds /opt/rti_connext_dds
 COPY rti_license.dat ${NDDSHOME}/license.dat
 
 FROM connext
