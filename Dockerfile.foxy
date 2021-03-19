@@ -12,12 +12,12 @@ RUN apt-get install -y python3.8-dev python3-pip && \
 RUN pip install PyQt5 lark-parser vcstool rosdep colcon-common-extensions sip numpy lxml netifaces cryptography
 
 FROM base as connext
-ENV NDDSHOME="/opt/rti_connext_dds/"
+ENV NDDSHOME="/opt/rti_connext_dds"
 ENV RTI_LICENSE_FILE="${NDDSHOME}/license.dat"
 ENV DYLD_LIBRARY_PATH="${NDDSHOME}/lib/x64Linux4gcc7.3.0:${DYLD_LIBRARY_PATH}"
 ENV PATH="${NDDSHOME}/bin:${PATH}"
 
-COPY rti_connext_dds /opt/rti_connext_dds
+COPY rti_connext_dds-6.0.1 /opt/rti_connext_dds
 COPY rti_license.dat ${NDDSHOME}/license.dat
 
 FROM connext
@@ -29,6 +29,7 @@ ARG CACHEBUST=1
 RUN echo "$CACHEBUST"
 
 RUN mkdir -p $WS/src && cd $WS && wget -q $METASRC && vcs import src < ros2.repos
+RUN cd $WS && git clone -b 0.3.1 https://github.com/rticommunity/rmw_connextdds.git src/ros2/rmw_connextdds
 RUN cd $WS/src && \
     git clone https://github.com/Barkhausen-Institut/ros2profiling.git && \
     python3 ros2profiling/patches/applyPatches.py
