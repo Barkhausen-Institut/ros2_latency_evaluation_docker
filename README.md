@@ -20,7 +20,7 @@ The script builds a container named `barkhauseninstitut/ros2custom:foxy`.
 For testing, start the container with (**be careful with the `--rm` flag. It means your container is deleted upon closing. So, changes are not persistent**)
 
 ```bash
-$ docker run -it --rm barkhauseninstitut/ros2custom:foxy /bin/bash
+$ docker run -it --rm barkhauseninstitut/ros2custom:foxy20201211 /bin/bash
 ```
 
 Within the container, you can walk around. The ROS2 build workspace is in /ros2_custom. Try e.g.
@@ -35,7 +35,7 @@ $ ros2 run demo_nodes_cpp talker
 Intended usage is to start the container, and mount your local src directory into the container. Files are to be edited with your normal editing environment. Then, building is performed within the container. To mount your work dir into the container, do the following from your root source directory.
 
 ```bash
-docker run -it --name ros2custom -v path/to/ros2_workspace:/workspace barkhauseninstitut/ros2custom:foxy
+docker run -it --name ros2custom -v path/to/ros2_workspace:/workspace barkhauseninstitut/ros2custom:foxy20201211
 ```
 
 This will prompt you to the containers bash. If you close it (`Ctrl-D` or `exit`) the container exits. See below how to restart. If you want to deattach and leave everything running in the container, type `Ctrl-p Ctrl-q`.
