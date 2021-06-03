@@ -15,7 +15,7 @@ Contains Dockerfile to create an image of our custom-build ROS2 including profil
 ## Building the image
 Run `./build.sh` (needs your user to be in the group `docker`) [see official docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user). Maybe you need to run it with `sudo`.
 
-The script builds a container named `barkhauseninstitut/ros2custom:foxy`.
+The script builds a container named `barkhauseninstitut/ros2custom:foxy20201211`.
 
 For testing, start the container with (**be careful with the `--rm` flag. It means your container is deleted upon closing. So, changes are not persistent**)
 
