@@ -1,4 +1,4 @@
-# CustomROS2Foxy
+# Purpose
 
 Contains Dockerfile to create an image of our custom-build ROS2 including profiling.
 
